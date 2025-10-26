@@ -101,11 +101,9 @@ def recommend_cf_cb_kb(
         tmp["score"] = 0.9 * tmp["pop_score"] + 0.1 * tmp["kb_bonus"]
         min_s, max_s = tmp["score"].min(), tmp["score"].max()
         if max_s > min_s:
-            scaled = (tmp["score"] - min_s) / (max_s - min_s + 1e-8)
-            top_max = np.random.uniform(0.95, 0.98)
-            tmp["score"] = 0.75 + (top_max - 0.75) * scaled
+            tmp["score"] = (tmp["score"] - min_s) / (max_s - min_s + 1e-8)
         else:
-            tmp["score"] = np.random.uniform(0.85, 0.9)
+            tmp["score"] = 0.0
         top = tmp.nlargest(topn, "score")
 
 
@@ -463,3 +461,4 @@ elif page == "💾 System Info":
     })
 
     st.success("System information loaded successfully!")
+
